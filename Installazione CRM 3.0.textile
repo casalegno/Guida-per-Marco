@@ -1,0 +1,343 @@
+h1. Install Crm3.00
+
+Cliente: Sysdat Turismo
+
+| .Data      | .Versione | .Descrizione  | .Autore       |
+| 22/06/2023 | 1.2       | Aggiornamento | Massimo Porta |
+| 21/02/2023 | 1.1       | Aggiornamento | Massimo Porta |
+| 17/10/2022 | 1.0       | Prima Stesura | Massimo Porta |
+
+ 
+
+h2. Presentazione del progetto
+
+Il presente documento ha lo scopo di descrivere la procedura per effettuare un’installazione standard del Crm2.17 su Oracle Linux 8.5 e con PHP 8.1
+
+h6. Sommario
+
+h2. Apache Web Server (HTTPD)	
+
+h3. Versione
+
+Ad oggi la maggior release è la 2.4 quella installare e 2.4.37
+
+h3. Installazione
+
+Per installare il Server Apache basta accedere alla macchina ove installare,  prendere i privilegi di Root e inserire i comandi di installazione
+
+bc. yum -y install httpd							Installazione dei pachetti utili
+systemctl start httpd.service				Start del servizio
+systemctl enable httpd.service				Abilita auto start del servizio
+
+1.3	Configurazione
+Per quanto riguarda la configurazione verificare la cartella rootdocument dentro il file “/etc/httpd/conf/httpd.conf” al suo interno bisogna effettuare alcuni controlli e aggiunte è auspicabile prima di effettuare le modifiche effettuare un backup del file.
+Ora posizionarsi nella cartella “/etc/httpd/conf.d” e creare un file con nome simile a questo “zz-crm.conf” con i permessi 611 e root:root come utente:gruppo, una volta creato editiamolo e aggiungiamo le seguenti righe:
+
+#
+# CRM
+#
+<IfModule env_module>
+    SetEnv CRMNAME {CLIENTE}
+    SetEnv CRMCONFIG {CLIENTE}
+    SetEnv CRMLOGO 'crm.png'
+</IfModule>
+
+Alias /crm "/var/www/html/crm"
+
+<Directory "/var/www/html/crm">
+#=========================================================================
+# #*#*#*#*#*# per evitare indice delle immagini e altro messo "-Indexes"
+#             al posto di "Indexes"
+#
+#=========================================================================
+    Options -Indexes +FollowSymLinks +Includes +ExecCGI
+#=========================================================================
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Require all granted
+</Directory>
+
+(dove {CLIENTE} dovrà essere sostituito con il nome del cliente e deve essere una singola parola) ovviamente le righe sopra sono puramente di esempi e servono per creare un alias /cmr se la root directory di apache deve indirizzare direttamente al crm bisogna modificare direttamente il parametro “DocumentRoot="/var/www/html"” e la relativa direttiva “<Directory “/var/www/html”>” nel file “/etc/httpd/conf/httpd.conf”.
+
+Completato la configurazione eseguire lo start(“systemctl start httpd”)/re-start(“systemctl restart httpd”) di httpd .
+
+ 
+2.	Php
+Si è deciso di installare Php 7.4 il motivo e dovuto al fatto che in Php 8.1 è stato deprecato il passaggio di NULL alle funzioni php per cui bisognava modificare parche programmi ma soprattutto anche parte delle estensioni di Yii su cui non posiamo mettere mano e per molte di esse non sono più aggiornate.
+2.1	Php 7.4
+2.1.1	Versione
+Versione disponibile 8.2, versione installata 7.4.32
+2.1.2	Installazione PHP
+Verifica delle versioni Php Disponibili con il comando “dnf module list php”, dopo di che aggiungiamo il repositori epel con “dnf install epel-release” e anche remi con “dnf install dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm” ora andiamo a resettare la versione di default con il comando “dnf module reset php” ora abilitiamo Php 7.4 con “dnf module enable php:remi-7.4” confermiamo con “s”, ora come ultimo passaggio installiamo php con “dnf install php” verifichiamo nella videata che appare se viene installata la versione 8.2 e confermiamo con “s”, ora eseguiamo il restart di HTTPD con “systemctl restart httpd.service”
+Ecco l’elenco comandi da eseguire per l’installazione:
+
+dnf install epel-release
+dnf install dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm (attenzione su linux oracle 9 sostituire remi-release-8.rpm con remi-release-9.rpm)
+dnf module list php
+dnf module reset php
+dnf module enable php:remi-7.4
+dnf install php
+systemctl restart httpd.service
+2.1.3	Installazione MODULI
+Il Crm per funzionare ha bisogno di una serie di moduli qui sotto l’elenco:
+php-pgsql 
+php-ldap 
+php-mbstring		php74-php-mbstring.x86_64
+php-mcrypt 
+php-soap 
+php-xml 				php74-php-xml.x86_64
+php-cli 				php74-php-cli.x86_64
+php-common 			php74-php-common.x86_64
+php-fpdf 	Verificare se necessario su mio pc non installato e tutto OK
+php-pear 
+php-pecl-json 		php74-php-json.x86_64
+php-gd 
+php-imap 
+php-xmlrpc 
+php-devel 
+php-oci8 	
+php-curl 			sembra gia installato con command
+php-opcache 		php74-php-opcache.x86_64
+php-gmp 				php74-php-gmp.x86_64
+php-imagick 
+php-intl 
+php-mongodb 		Installato php-pecl-mongodb
+php-ssh2 
+php-tidy 
+php-zip
+per instllarli potete farlo uno alla volta (consigliato) con il comando “yum -y install {pacchetto}” o in modo cumulativo ecco degli esempi:
+Singolo: 
+yum -y install php-pgsql 
+yum -y install php-ldap
+…
+Cumulativo 
+yum -y install php-pgsql php-ldap php74-php-mbstring.x86_64 php-mcrypt php-soap php74-php-xml.x86_64 	php74-php-cli.x86_64 php74-php-common.x86_64 php-pear php74-php-json.x86_64 php-gd php-imap php-xmlrpc php-devel php-oci8 php74-php-opcache.x86_64 php74-php-gmp.x86_64 php-imagick php-intl php-pecl-mongodb php-ssh2 php-tidy php-zip
+
+
+finito l’installazione dei moduli riavviare il servizio HTTPD con il comando “systemctl restar httpd.service” fare attenzione se esiste la cartella “/etc/php-fpm.d” bisogna ricordarsi di far ripartire il servizio di php con “systemctl restar php-fpm”.
+2.1.4	Configurazione
+Una volta terminato l’installazione bisogna editare il file “/etc/php.ini” e aggiungere in forndo le seguenti righe:
+
+bc. ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; personalizzazioni per CRM ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+date.timezone = Europe/Berlin
+display_errors = On
+;error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED
+error_reporting=E_ALL & ~E_WARNING & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED
+error_log = /var/log/php_error.log
+;session.cookie_secure = 1
+;session.cookie_httponly = 1
+;session.gc_probability = 30
+;session.gc_maxlifetime = 21600
+
+Con attenzione che esse non siano presenti in precedenza se cosi fosse bisognerà commentare tali righe apponendo un “;” all’inizio della riga, una volta salvato la configurazione bisognera riavviare i servizi “Httpd” e “php-fpm” con “systemctl restar httpd” e “systemctl restar php-fpm”.
+
+h2. Php 8.1
+
+Versione disponibile 8.2, versione installata 8.1.11
+
+h3. Installazione PHP
+
+Verifica delle versioni Php Disponibili con il comando “dnf module list php”, dopo di che aggiungiamo il repositori epel con “dnf install epel-release” e anche remi con “dnf install dnf-utils http://rpms.remirepo.net/enterprise/remi-release-pwd
+Pwd
+.rpm” ora andiamo a resettare la versione di default con il comando “dnf module reset php” ora abilitiamo Php 7.4 con “dnf module enable php:remi-8.1” confermiamo con “s”, ora come ultimo passaggio installiamo php con “dnf install php” verifichiamo nella videata che appare se viene installata la versione 8.2 e confermiamo con “s”, ora eseguiamo il restart di HTTPD con “systemctl restart httpd.service”
+Ecco l’elenco comandi da eseguire per l’installazione:
+
+bc. dnf install epel-release
+dnf install dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm
+dnf module list php
+dnf module reset php
+dnf module enable php:remi-8.1
+dnf install php
+systemctl restart httpd.service
+2.2.3	Installazione MODULI
+Il Crm per funzionare ha bisogno di una serie di moduli qui sotto l’elenco:
+php-pgsql 
+php-ldap 
+php-mbstring
+php-mcrypt 
+php-soap 
+php-xml
+php-cli
+php-common
+php-fpdf 	Verificare se necessario su mio pc non installato e tutto OK
+php-pear 
+php-pecl-json 		Secondo PECL già in core da Php 5.2 (https://pecl.php.net/package/JSON)
+php-gd 
+php-imap 
+php-xmlrpc 
+php-devel 
+php-oci8 	
+php-curl 			sembra gia installato con command
+php-opcache
+php-gmp
+php-imagick 
+php-intl 
+php-mongodb 		Installato php-pecl-mongodb
+php-ssh2 
+php-tidy 
+php-zip
+per instllarli potete farlo uno alla volta (consigliato) con il comando “yum -y install {pacchetto}” o in modo cumulativo ecco degli esempi:
+Singolo: 
+yum -y install php-pgsql 
+yum -y install php-ldap
+…
+Cumulativo 
+	yum -y install php-pgsql php-ldap php-mbstring php-mcrypt php-soap php-xml php-cli php-common php-pear php-gd php-imap php-xmlrpc php-devel php-oci8 php-curl php-opcache php-gmp php-imagick php-intl php-pecl-mongodb php-ssh2 php-tidy php-zip
+
+finito l’installazione dei moduli riavviare il servizio HTTPD cvon il comando “systemctl restar httpd.service”.
+2.2.4	Configurazione
+Una volta terminato l’installazione bisogna editare il file “/etc/php.ini” e aggiungere in forndo le seguenti righe:
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; personalizzazioni per CRM ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+date.timezone = Europe/Berlin
+display_errors = On
+;error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED
+error_reporting=E_ALL & ~E_WARNING & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED
+error_log = /var/log/php_error.log
+;session.cookie_secure = 1
+;session.cookie_httponly = 1
+;session.gc_probability = 30
+;session.gc_maxlifetime = 21600
+Con attenzione che esse non siano presenti in precedenza se cosi fosse bisognerà commentare tali righe apponendo un “;” all’inizio della riga, una volta salvato la configurazione bisognera riavviare i servizi “Httpd” e “php-fpm” con “systemctl restar httpd” e “systemctl restar php-fpm”.
+
+
+ 
+3.	Postgres
+3.1	Versione
+Versione disponibile 15.0, versione installata 14.0
+Attenzione alla data attuale non è stato possibile installare la versione 15.0 per un bug nelle union che se vengono effettuare delle union dove le colonne non hanno lo stesso content type da errore e purtroppo Yii le utilizza.
+Aggiornamento al 21-02-2023:
+sembrerebbe che YII abbaia apportato delle modifiche al framework e abbia sistemato il problema delle union quindi si può utilizzare postgres 15.2 (vedi note installazioni).
+3.2	Postgres 14
+Note Installazione Postgres 14.4
+3.2.1	Installazione
+Per prima cosa aggiungiamo il repositori con il comando “dnf install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm” e confemare con “s”.
+Disabilitare il modulo standard con “dnf -qy module disable postgresql”
+Provare a cerca il nuovo pachetto con “dnf search postgresql14”
+Ora installiamolo con “dnf install postgresql14 postgresql14-libs postgresql14-server postgresql14-contrib.x86_64” e confermare tutte le richieste co “s”.
+Elenco comandi da lanciare:
+
+•	dnf install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+•	dnf -qy module disable postgresql
+•	dnf search postgresql14
+•	dnf install postgresql14 postgresql14-libs postgresql14-server postgresql14-contrib.x86_64
+3.2.2	Configurazione
+Ora iniziamo la configurazione di Postgres, per prima cosa eseguiamo l’inizializzazione del db con “/usr/pgsql-14/bin/postgresql-14-setup initdb”, una volta inizializato il db abilitiamo l’auto start del servizio con “systemctl enable --now postgresql-14”.
+Verifichiamo se il servizio è attivo con “systemctl status postgresql-14” cambiamo utente con “sudo su – postgres”.
+Ora andiamo a modificare il file “/var/lib/pgsql/14/data/postgresql.conf” e verificare il parametro listen_addresses impostandolo ad “*” (fare attenzione se il parametro e remato de-remarlo). (ATTENZIONE!!! VEDI NOTE IMPORTANTI VERSIONE POSTGRES 15)
+Ora editiamo il file “/var/lib/pgsql/14/data/pg_hba.conf” e verifichiamo che le impostazioni siano a:
+TYPE	DATABASE	USER	ADDRESS	METHOD
+Local	All	all		peer
+Se così non fosse impostarlo come sopra, poi eseguire postgresql con “psql” e lanciare la query “ALTER USER postgres PASSWORD ‘{la tua password}’;” una volta eseguito il comando sql uscire con “\q” e  editare nuovamente il file pg_hba.conf e importare il parametro METHOD a md5 in oltre bisogna cambiare per tutte le righe presenti il METHOD e metterlo a md5 ed eventualmente aggiungere delle righe se si vuole permettere alla rete di accedere ai Db del server, riporto un esempio di riga da aggiungere per tutti gli IP della rete con classe 192.0.200:
+TYPE	DATABASE	USER	ADDRESS	METHOD
+Host	All	all	192.0.200.0/24	Md5
+Si rammenta che per rendere attive le modifiche bisogna riavviare il servizio con “systemctl restart postgresql-14”.
+Ora bisogna verificare che esista la cartella “/var/run/postgresql” se non esiste crearla poi cambiare i permessi con “chmod 755 /var/run/postgresql” e l’utente proprietario con “chown postgres /var/run/postgresql” ora eseguire lo start o il re-start del servizio.
+Bisogna anche eseguire il seguente comando “chown root:apache /var/lib/php/session”.
+3.3	Postgres 15
+3.3.1	Installazione
+Si può utilizzare le note di installazione di postgres14 cambiando la versione a 15 
+Per Oracle Linux 9 si deve utilizzare questo repositori:
+“dnf install https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm”
+
+•	dnf install https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+•	dnf -qy module disable postgresql
+•	dnf search postgresql15
+•	dnf install postgresql15 postgresql15-libs postgresql15-server postgresql15-contrib.x86_64
+In oltre dopo l’installazione fare uno spegnimento e una riaccensione e verificare che il servizio di postgresql riparta correttamente, se non riparte verificare l’esistendella cartella /var/run/potgresql e i relativi permessi.
+
+Soluzione 1 (gestendo la directory temporanea /run/postgresql, /var/run/postgresql)
+	
+La directory /run/postgresql è una directory temporanea. Il percorso /var/run/postgresql è solitamente un collegamento simbolico a /run/postgresql.
+systemd-tmpfiles è un meccanismo per gestire tali file e directory temporanei. systemd-tmpfiles crea directory temporanee durante l'avvio e ne imposta il proprietario, il gruppo e le autorizzazioni. Può leggere i file di configurazione in tre posizioni diverse. I file in /etc/tmpfiles.d sovrascrivono i file con lo stesso nome in /usr/lib/tmpfiles.d e /run/tmpfiles.d.
+
+
+Possiamo creare la directory /run/postgresql al volo all'avvio utilizzando il meccanismo systemd-tmpfiles creando il file di configurazione postgresql come di seguito
+echo "d /run/postgresql 0755 postgres postgres -" > /usr/lib/tmpfiles.d/postgresql.conf
+
+Soluzione 2 (trasferendo la posizione del file di blocco di PostgreSQL)
+	Un altro modo per risolvere il problema è spostare la posizione del file di blocco di PostgreSQL. Possiamo farlo utilizzando la query sottostante
+ALTER SYSTEM SET unix_socket_directories='<any-existing-path-with-valid-permissions>, /tmp';
+Qui possiamo fornire qualsiasi percorso per il file di blocco PostgreSQL che è già presente sul sistema e ha le autorizzazioni necessarie per gestire i file di blocco dall'utente postgres.
+3.3.2	Configurazione
+Si può utilizzare le note di configurazione di postgres14 cambiando la versione a 15 
+NOTA IMPORTANTE: 
+Se al server ci si deve collega da un server linux Centos7 e necessario fare attenzione che la modalità di encryption della password sia impostata a md5, per fare questo prima di andare a impostare la password con il comando “ALTER USER” bisogna modificare nel file “/var/lib/pgsql/15cd da	/data/postgresql.conf” il parametro “password_encryption” impostandolo a “md5” (password_encryption = md5) salvare e riavviare postgres (systemctl restart postgresql-15)
+
+ 
+4.	Git
+4.1	Versione
+La versione installata e 2.31.1
+4.2	Installazione
+Per installare git lanciare il comando “yum install git” (il programma potrebbe essere già installato).
+4.3	Configurazione
+Non ci sono configurazioni da effettuare
+
+
+
+ 
+5.	Crm
+5.1	Versione
+Ad oggi la versione disponibile è crm2.17 – tag 2.17.57, ovviamente bisogna installare l’ultima disponibile.
+5.2	Installazione
+Posizionarsi nella cartella “/var/www/html” e lanciare i seguenti comandi:
+•	CRM
+o	git clone git://192.0.200.106/repositories/crm.git			(Sviluppo)
+o	git clone http://192.168.100.140/git/crm.git					(Produzione)
+•	YII
+o	git clone https://github.com/yiisoft/yii.git
+Ora posizionarsi nella cartella Crm ed eseguire i seguenti comandi:
+•	export GIT_SSL_NO_VERIFY=true
+•	git submodule init
+•	yum update nss curl (probabilmente sono già aggiornati)
+•	git submodule update
+•	mkdir /var/www/html/crm/assets
+•	chmod 777 /var/www/html/crm/assets
+•	chmod 777 /var/www/html/crm/protected/runtime -R
+•	chown -R apache:apache /var/www/html/crm/files
+•	chmod -R 755 /var/www/html/crm/files
+•	git checkout crm2.17
+A questo punto siamo pronti per eseguire la procedura di install del db e di configurazione di esso posizionarsi nella cartella “protected” e lanciare “sh install”
+5.3	Configurazione
+Ora iniziamo la procedura di configurazione del Crm, posizionaniamoci nella cartella “/var/www/html/crm/protected” e eseguire “sh install”
+
+ 
+6.	Xdebug
+6.1	Versione
+La versione installata e la 3
+6.2	Installazione 
+Per l’installazione fare riferimento a questo documento xdebug_remoto_installa.docx
+6.3	Configurazione
+Per la configurazione fare riferimento a questo documento xdebug_remoto_installa.docx
+
+
+
+ 
+7.	Mongodb Ver. 6.0
+IMPORTANTE, prima di iniziare l’installazione se la macchina è virtualizzata con PROXMOX il processore deve essere messo in HOST, altrimenti mongodb non parte.
+7.1	Configurazione Repository
+Per prima cosa bisogna configurare il repositori di Mongo in YUM andando a creare un file con nome “mongodb-org-6.0.repo” nella cartella “/etc/yum.repos.d” (vedi note installazioni ufficiali di mongo al link: https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-red-hat/) e copiare al suo interno quanto sotto:
+[mongodb-org-6.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/6.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc
+7.2	Installazione
+Una volta aggiunto il repository per installare basta eseguire il comando seguente:
+	yum install -y mongodb-org
+7.3	Configurazione
+Mongo dovrebbe creare di default due cartelle, la prima “/var/lib/mondo” è dove sono registrati i dati, mentre la seconda “/var/log/mongodb” la crtella dei LOG.
+Per prima cosa verificare la loro esistenza e che abbiano come utente e gruppo “mongod”.
+Se si volesse cambiare il posizionamento dei dati è possibile farlo modificando il file “/etc/mongod.conf”.
+7.4	Start del Demone
+Per lanciare il demone basta eseguire:
+	systemctl start mongod				(Starta il servizio)
+systemctl status mongod			(Verifica lo stato del servizio)
+systemctl enable mongod			(Abilita l’avvio del servizio all avvio del sistema)
+systemctl stop mongod				(Ferma il Servizio)
