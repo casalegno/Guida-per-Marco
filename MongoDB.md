@@ -52,6 +52,7 @@ systemctl restart mongod
 
 ## Cambiamo nome ad un databae
 Per cambiare un nome ad un db dobbiamo, dalla versione 4 in avanti, eseguire il dump ed il restore.
+La funzione `db.copyDatabase` è deprecata.
 
 ## Cancellare un Database
 Per cancellare un database dobbiamo per prima cosa accedere al database quindi lanciare il comando di drop

@@ -1,5 +1,6 @@
 # Docker
-
+**Docker su RH non è piu supportato. Esiste Podman**
+Podman, sempre di Red Hat, è considerato il diretto successore e, facendo a meno di un demone centrale e dei privilegi di root, è in grado di allontanare molte preoccupazioni sulla sicurezza del suo predecessore. Per il resto, i due strumenti sono simili, anche se Podman deve ancora fare i conti con alcuni bug.
 <!-- TOC -->
 
 - [Installiamo](#installiamo)
@@ -23,13 +24,10 @@
     - [Abilito l'esecuzione automatica dei pod](#abilito-lesecuzione-automatica-dei-pod)
 - [Conclusioni](#conclusioni)
     - [Mysql](#mysql)
-- [Postgres](#postgres)
-- [MondoDB](#mondodb)
+    - [Postgres](#postgres)
+    - [MongoDb](#mongodb)
 
 <!-- /TOC -->
-
-**Docker su RH non è piu supportato. Esiste Podman**
-Podman, sempre di Red Hat, è considerato il diretto successore e, facendo a meno di un demone centrale e dei privilegi di root, è in grado di allontanare molte preoccupazioni sulla sicurezza del suo predecessore. Per il resto, i due strumenti sono simili, anche se Podman deve ancora fare i conti con alcuni bug.
 
 Con questa linea guida provo a configurare docker per essere utilizzato su una macchina virtuale.
 Una risorsa interessante con buona documentazione è [Rootless Container](https://rootlesscontaine.rs)
@@ -220,9 +218,10 @@ I test eseguiti sui container hanno interessato i tre database che utilizziamo i
 I test sono stati [eseguiti e documentati](./Docker-MySql.md) sia su mysql 8.0.28 sia sulla versione 8.0.32
 I risultati sono chiari: si possono eseguire i container con Mysql in entramebe le versioni. Ci sono alcune variabili d'ambiente da impostare perchè il PMS riesca a leggere e scrivere e si possono usarei file preparati da Angelo per sostituire il My.cnf.
 
-## Postgres
+### Postgres
 Postgres 15.3 non ha dato particolari problemi se non in fase di ricerca delle variabili da utilizzare per la  creazione del contenitore. I dati si riscono a leggere e si riesce a scrivere all'interno senza particolari difficoltà.
 L'importazione dei dati dai db gia esistenti non comporta nessun problema.
 
-## MondoDB
-Con mongodb il problema principale è stato quello di utilizzare una macchina con un kernel adattato. Lo stesso problema evidenziato nella versione non conteinerizzata. 
+### MongoDb
+Con mongodb il problema principale è stato quello di utilizzare una macchina con un kernel adattato. Lo stesso problema evidenziato nella versione non conteinerizzata. Il database funziona e da CLI si riesce ad interagire senza difficoltà con i dati importati.
+Il PMS non riesce a scrivere, il CRM scrive ma non legge. Errori segnalati a Porta.
