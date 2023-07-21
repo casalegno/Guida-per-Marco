@@ -35,8 +35,12 @@ podman create --name mysql1 -e MYSQL_ROOT_PASSWORD=Sysd@t21! -v mysql1_data:/var
     /etc/my.cnf
     /etc/my.cnf.d/mysql-server.cnf
 
+```sh
+podman cp my.cnf mysql32a:/etc/
+podman cp mysql-server.cnf mysql32a:/etc/my.cnf.d/
+```
 Una copia dei file è sulla sua home.
-Una copia dei file è sulla 192.168.100.136
+Una copia dei file è sulla 192.168.100.136.
 
 
 

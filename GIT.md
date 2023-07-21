@@ -8,14 +8,21 @@ https://gist.github.com/tesseslol/da62aabec74c4fed889ea39c95efc6cc
 
 #### Procedimenti preliminari
 Come prassi eseguire il backup delle cartelle da aggiornare prima di fare la git e il backup del database relativo al crm.
+Se installo per la prima volta git e devo usarlo come programma di versionamento devo subito configurare i miei dati personali
+```sh
+git config --global user.name "nome cognome"
+git config --global user.email "email@host.it"
+```
 
 ## Su che macchina sto lavorando
 Per sapere su quale macchina sto lavorando con Git posso venirne a conoscenza richiedendo le informazioni di configurazione.
+Dove vedo anche se mi sono configurato l'account
 ```sh
 git config --list
 git config --global --list
 ```
 il comando restituisce tutte le informazioni relative al branch ed all'indirizzo IP della macchina in uso.
+[Vedi il video di configurazione](https://www.youtube.com/watch?v=7I_8k4E19nE&list=PL6PilnEO6HWbhuS25PRBz9n9ESaMmlqWL&index=4)
 
 ## Cambio di branch
 Se capita di cambiare il branch mi devo posizionare all'interno della directory e devo eseguire un pull per visionare il nuovo branch.
@@ -167,3 +174,10 @@ E il salvataggio dei cambiamenti nel server di repository.
 La working directory (il codice sorgente)
 La stagin area (i file in attesa di essere caricati nella commit successiva)
 La Git Directory (qui i dati sono salvati nel db di versionamento con le loro modifiche)
+
+## I branch e gli aggiornamenti
+Spiegazione chiara di Massimo. 
+Dobbiamo vedere i branch come delle cartelle, tutte presenti nello stesso repository.
+Quando scarichiamo un repository, noi scarichiamo tutti i branch esistenti, ma lavoriamo esclusivamente in uno di questi.
+Nel nostro esempio quando scarichiamo il CRM scarichiamo i 3 branch principali: crm2.17, crm3.00 e HEAD. Di default lavoriamo nel branch crm2.17 e se eseguiamo degli aggiornamenti li eseguiamo all'interno di quel brach.
+Se ci spostiamo in un'altro branch, dobbiamo vederlo semplicemente come un cambio di cartella di lavoro, che sarà aggiornato all'ultima volta che abbiamo richiesto una pull. All'interno di quel branch, se da allora non sono state fatte modifiche e committate nel repository, non vi sara nulla da aggiornare ed una pull non restituirà nessun risultato.

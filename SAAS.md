@@ -25,6 +25,7 @@ L'ultima rete utilizzata in azienda ma ospitata da Irideos Farm è la numero  **
 
 ### Risorse di varia importanza.
 
+- 192.0.200.118 **LA MIA MACCHINA**
 - Accedo alle macchine di Milano e di Irideo con i miei dati personali
 - Stesso discorso per il SU c'è il gruppo sudo.
 - 192.0.200.190 NAS dove vengono salvati tutti i backup dei computer della rete **trusted** 
@@ -36,12 +37,15 @@ Ho accesso a Frontoffice e Doctur.
 - 192.168.100.222 è la macchina Delta con i CRM (con ssh non posso collegarmi a oracle9: ssh troppo vecchia) non in comunicazione con 168.100
 - 192.168.100.211 e la macchina Delta DB
 - 192.168.100.229 e la macchina dedicata a Due Torri.
-- 192.0.200.205 Macchina di Mauro
-- 192.0.200.118 **LA MIA MACCHINA**
+
 - 192.0.200.140 Macchina di test con montato il CRM - Sto provando a fare gli aggiornamenti su questa macchina.
 - 192.0.200.115 Macchina Master per l'rsync degli ambienti.
 - aprendo il file \\192.168.10.190\doctur\Assistenza\Progetti\SituazioneServerSaasFront.xml trovo tutte le macchine in uso ai clienti
+
+- 192.168.30.1 - Macchina ufficiale con installato Git
+- 192.168.30.2 - Macchina ufficiale con installato Postgres 15
 - 192.168.30.5 - Macchina ufficiale del **CRM 3.0**
+- 192.168.30.6 - Macchina ufficiale con installato MongoDb6
 
 ## Server BI
 Il servizio è gestito dai due dirimpettai, fanno analisi di tutti i dati che arrivano dai vari PMS e CRM.
@@ -69,10 +73,13 @@ Css folder: `C:\Users\casalegno\AppData\Local\Programs\Microsoft VS Code\resourc
 
 
 ## MAC Address per indirizzo IP
+**0.200**
 F29383DDC1D8 - 192.0.200.98
+080027D01D0B - 192.0.200.148
+**168.235**
 0800274C9030 - 192.168.235.120-155
 08002781C8C0 - 192.168.235.39
-
+080027EFAED1 - LocaleMarco - 192.168.235.11
 
 
 

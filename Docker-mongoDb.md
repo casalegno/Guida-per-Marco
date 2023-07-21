@@ -23,11 +23,9 @@ In questo caso l'unica soluzione è cambiare la tipologia di macchina poichè no
 
 ## Eseguiamo il dump di mongodb
 Ho eseguito il dump di un db presente su mongo in locale ed importato con mongorestore
-
 ```sh
 mongorestore --port 10017 -host 0.0.0.0 -d {database} path_db
 ```
-
 docker exec <CONTAINER> sh -c 'exec mongodump --db somedb --gzip --archive' > dump_`date "+%Y-%m-%d"`.gz
 
 ## Accediamo a MongoDB su container
@@ -35,3 +33,8 @@ Dobbiamo sempre accedere indicando porta e host, tramite mongo shell
 ```sh
 mongosh --port 10017 --host 0.0.0.0 
 ```
+l'accesso a MongoDb anche su container da terminale funziona senza problemi.
+Sfortunatamente non ho un'altra macchina con installato la shell di mongo 6 per effettuare un test di connessione.
+
+Dal CRM continua a non collegarsi a Mongo6. Il problema è legato alla versione del branch in uso: al momento di effettuare le connessini siamo sul branch crm2.17
+Basta spostarsi sul branch crm3.0

@@ -1,7 +1,7 @@
+# Postgres su Docker
 I test su postgres sono terminati.
 Il database su container funziona, si riesce ad aggiornare con il passaggio dei dati e si possono importare tranquillamente i db esistenti.
 
-# Postgres su Docker
 Creare un POD per Postgress è praticamente simile a crearlo per mysql.
 ```sh
 podman create --name postgres1 -e POSTGRES_PASSWORD=B0C4MGliy3 -e POSTGRES_INITDB_ARGS=--auth-host=md5 -v pg1:/var/lib/postgresql/data -p 0.0.0.0:5432:5432 postgres:15.3

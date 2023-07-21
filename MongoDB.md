@@ -38,3 +38,30 @@ Il restore funziona indicativamente allo stesso modo
 mongorestore -d {nomedatabase} --host={hostip} --port={11243}
 ```
 è importante ricordarsi che quando importo un db devo indicare in quale database importare. Crea lui autonomamente il database se non esiste
+
+## Abilitiamo il bindIp remoto
+Per abilitare il bind remoto a MongoDB che solitamente accetta solo ed esclusivamente accessi da localhost dobbiamo modificare il file di configurazione e riavviare il demone.
+```sh
+vi /etc/mongod.conf
+```
+>#  bindIp: 127.0.0.1  # Listen to local interface only, comment to listen on all interfaces.
+>bindIp: 0.0.0.0
+```sh
+systemctl restart mongod
+```
+
+## Cambiamo nome ad un databae
+Per cambiare un nome ad un db dobbiamo, dalla versione 4 in avanti, eseguire il dump ed il restore.
+
+## Cancellare un Database
+Per cancellare un database dobbiamo per prima cosa accedere al database quindi lanciare il comando di drop
+```sql
+use {database}
+switched to db {database}
+db.dropDatabase()
+```
+ed in questo modo viene cancellato.
+
+
+Error 500
+192.168.100.137:10017: OP_QUERY is no longer supported. The client driver may require an upgrade. For more details see https://dochub.mongodb.org/core/legacy-opcode-removal

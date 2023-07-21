@@ -51,3 +51,9 @@ echo ':set number' >> ~/.vimrc
 `p` PASTE incolla cio che ho di copiato esattamente dove mi trovo.
 `v` in modalità visuale permette di selezionare il testo che poi andrà copiato con `y`
 `:set number!` toggle visualizza/nasconde i numeri delle righe
+
+## Split e Tab Mode
+Per avviare Vi in modalita Tabbed uso l'opzione `-p` 
+
+## Hard Force closed
+Con il comando CTRL+Z forzo la chiusura di vim

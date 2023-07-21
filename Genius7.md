@@ -18,3 +18,7 @@ E il pannello che mi permette di effettuare una scrittura nel database
 ## EDNAV
 E il pannello che permette di estrarre, filtrando tutti i documenti/stampe registrate all'interno del database mysql
 
+## MENUPER
+Gestione parametri menu e configurazione con url del crm da utilizzare
+Utente e password SU FERRARI21 e action
+
