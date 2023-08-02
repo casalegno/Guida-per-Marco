@@ -156,3 +156,4 @@ Il problema viene analizzato in questo [post su Stack Overflow](https://stackove
 
 ### Conclusione
 Anche inserendo questo parametro tramite il `mysql-server.conf` file, il problema persiste. Angelo ritiene si tratti di qualche configurazione che non viene pienamente letta dal gestionale, ma sulla quale si puo soprassedere.
+Si potrebbe testare il diverso comportamento in base al Sistema operativo: l'immagine viene fornita con Oracle e con Debian. Quest'ultima ha decisamente meno vulnerabilità.

@@ -24,6 +24,8 @@ Questo è la versione preinstallata di base sui sitemi OL9. Per ottenere tutte l
 yum install vim
 ```
 ed otteniamo una versione completa con la sintassi colorata e tante altre funzioni.
+Questo è un esempio di [file di configurazione di vim](./file_configurazione/.vimrc)
+che contiene molte delle impostazioni utili nell'uso del programma.
 
 
 
@@ -57,3 +59,5 @@ Per avviare Vi in modalita Tabbed uso l'opzione `-p`
 
 ## Hard Force closed
 Con il comando CTRL+Z forzo la chiusura di vim
+
+## 

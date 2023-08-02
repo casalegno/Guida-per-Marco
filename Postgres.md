@@ -15,6 +15,7 @@ Per accedere al db postgres e piu facile riuscirci se sono un utente root.
 - [Encryption e connessione da psql < 10](#encryption-e-connessione-da-psql--10)
 - [Comandi utili con Postgres](#comandi-utili-con-postgres)
     - [Modifica del db](#modifica-del-db)
+- [Ottenere l'elenco dei DB in un file txt](#ottenere-lelenco-dei-db-in-un-file-txt)
 
 <!-- /TOC -->
 
@@ -159,5 +160,19 @@ show password_encryption;
 ```sql
 ALTER DATABASE db RENAME TO newdb;
 ```
+
+## Ottenere l'elenco dei DB in un file txt
+Esegui il comando psql per ottenere l'elenco dei database
+ Utilizziamo l'opzione -t per ottenere solo i nomi dei database senza alcuna formattazione
+ Utilizziamo l'opzione -c per specificare il comando SQL da eseguire
+ Utilizziamo l'opzione -w per richiedere la password dell'utente del database in modo sicuro
+```sql
+psql -t -c "SELECT datname FROM pg_database WHERE datistemplate = false;" -h 0.0.0.0 -U postgres -w > dblist.txt
+```
+
+
+
+
+
 
 

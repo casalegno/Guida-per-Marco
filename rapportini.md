@@ -5,17 +5,23 @@
 - [COME COMPILARE I RAPPORTINI PER OGNI GIORNO](#come-compilare-i-rapportini-per-ogni-giorno)
     - [Inseriamo il rapportino giornaliero](#inseriamo-il-rapportino-giornaliero)
     - [Lavoro per il cliente non a pagamento](#lavoro-per-il-cliente-non-a-pagamento)
-        - [Spostamento ambiente da Delta a Helite](#---spostamento-ambiente-da-delta-a-helite)
-        - [Aggionrnamento CRM](#---aggionrnamento-crm)
-        - [SAQ PMS](#---saq-pms)
-        - [SAQ WEB](#---saq-web)
-        - [Corso Software - Costi diretti](#---corso-software---costi-diretti)
-        - [Test e Studio MySql](#---test-e-studio-mysql)
-        - [Documentazione WIki TU](#---documentazione-wiki-tu)
-        - [Lavori e test su CRM](#---lavori-e-test-su-crm)
-        - [Documentazione Wiki CRM](#---documentazione-wiki-crm)
-        - [Corso MongoDB](#---corso-mongodb)
-        - [Ferie e Permessi](#---ferie-e-permessi)
+        - [- #### Spostamento ambiente da Delta a Helite](#---spostamento-ambiente-da-delta-a-helite)
+        - [- #### Aggionrnamento CRM](#---aggionrnamento-crm)
+        - [- #### SAQ PMS](#---saq-pms)
+        - [- #### SAQ WEB](#---saq-web)
+        - [- #### Corso Software - Costi diretti](#---corso-software---costi-diretti)
+        - [- #### Test e Studio MySql](#---test-e-studio-mysql)
+        - [- #### Documentazione personale](#---documentazione-personale)
+        - [- #### Documentazione WIki TU](#---documentazione-wiki-tu)
+        - [- #### Documentazione WIki crm](#---documentazione-wiki-crm)
+        - [- #### Lavori e test su CRM](#---lavori-e-test-su-crm)
+        - [- #### Documentazione Wiki CRM](#---documentazione-wiki-crm)
+        - [- #### Corso MongoDB](#---corso-mongodb)
+        - [- #### Ferie e Permessi](#---ferie-e-permessi)
+        - [- #### MODIFICHE AL CRM PER SVILUPPO](#---modifiche-al-crm-per-sviluppo)
+        - [- #### MODIFICHE AL CRM CORREZIONI ERRORI](#---modifiche-al-crm-correzioni-errori)
+        - [- #### LAVORO PER IL SOL](#---lavoro-per-il-sol)
+        - [- #### SESSIONE BLOCCATTA](#---sessione-bloccatta)
 - [STAMPA RAPPORTINI](#stampa-rapportini)
     - [Prima Stampa: RA3COLASV](#prima-stampa-ra3colasv)
     - [Seconda stampa: RA2](#seconda-stampa-ra2)
@@ -72,6 +78,13 @@ Una volta tornato al menu iniziale con _ESC_ posso chiudere tutto con _F4_
 [^1]:Posso utilizzare il Ticket se ho fatto almeno 5 ore di lavoro consecutive con 1/2 di pausa-
 
 ### Lavoro per il cliente non a pagamento
+
+In generale le ore riguardanti attività di ore di test su nuovi sistemi operativi - linguaggi etc vanno inserite così:
+REPARTO: reparto specifico
+COMMESSA: commessa generica di prodotto
+ATTIVITA’: SVT
+PRODOTTO: generico
+
 - #### Spostamento ambiente da Delta a Helite
     02) CRM 
     03) 28001 ANL FAHELI
@@ -79,7 +92,7 @@ Una volta tornato al menu iniziale con _ESC_ posso chiudere tutto con _F4_
     06) 1 ora come minimo
 - #### Aggionrnamento CRM
     02) CRM 
-    03) 28XXX Codice preso da pianificazione - ANL FAHELI 
+    03) 28XXX Codice preso da pianificazione - ERR FAHELI 
     05) AGGIORNAMENTO CRM
     06) 1 ora come minimo
 - #### SAQ PMS
@@ -96,15 +109,21 @@ Una volta tornato al menu iniziale con _ESC_ posso chiudere tutto con _F4_
     05) CORSO <DA SPECIFICARE>
 - #### Test e Studio MySql
     02) TU 
-    03) 19326 ANL AAFRXX
+    03) 19326 SVT AAFRXX
     05) TEST E LAVORO PRATICO SU MYSQL
+- #### Documentazione personale
+    In linea generale la mia documentazione personale va inserita come DOC con ore separate.
 - #### Documentazione WIki TU
     02) TU 
-    03) 31993 DOC AAFRXX
-    05) CORSO <DA SPECIFICARE>
+    03) 19326 DOC AAFRXX
+    05) DESCRIZIONE DOCUMENTAZIONE
+- #### Documentazione WIki crm
+    02) CRM
+    03) 28001 DOC FAHELI
+    05) DESCRIZIONE DOCUMENTAZIONE
 - #### Lavori e test su CRM
     02) CRM 
-    03) 28001 ANL FAHELI
+    03) 28001 SVT FAHELI
     05) ESERCIZI PRATICI E TEST VARI
 - #### Documentazione Wiki CRM
     02) CRM 
@@ -122,6 +141,26 @@ Una volta tornato al menu iniziale con _ESC_ posso chiudere tutto con _F4_
     05) FERIE
     06) 9-13 14-18
     07) NO
+- #### MODIFICHE AL CRM PER SVILUPPO
+    02) CRM 
+    03) 28001 SVI FAHEMA - Marketing FAHEWC - Webcheckin
+    05) DESCRIZIONE ATTIVITA
+- #### MODIFICHE AL CRM CORREZIONI ERRORI 
+    02) CRM 
+    03) 28001 ERR FAHEMA - Marketing FAHEWC - Webcheckin
+    05) DESCRIZIONE ATTIVITA
+- #### LAVORO PER IL SOL
+    02) SOL
+    03) 18298 ANL DABO
+    05) DESCRIZIONE ATTIVITÀ
+
+
+
+- #### SESSIONE BLOCCATTA
+    ACCEDRERE CON UTENTE DIS ED INSERIRE IL MIO CODICE
+    SCEGLIERE TUTTE
+    ANCORA IL MIO CODICE CON PASSWORD
+
 
 
 
@@ -132,12 +171,15 @@ A fine mese bisogna eseguire la stampa dei rapportini
 Posso richiamare i comandi rapidi con F2
 
 ### Prima Stampa: RA3COLASV 
+Con queto comando stampo a video un riepilogo di tutti i rapportini inseriti nel mese, per controllare se i dati inseriti sono corretti. 
+Sarebbe buona norma eseguire questo passaggio tutte le settimane per assicurarsi che i rapportini siano inseriti in modo logico.
 Anteprima di Stampa [X] - Stampante: [04 Laser Back.]
-Stampa su carta [X] - [F11]
+Stampa su carta [no] - [F11]
+Mia Matricola [0386] - Data di inizio mese[010123]
 Stampa (S/N): [S]
 Codice cliente:[INVIO] (INIZIO-FINE)
-[F6-STAMPA]
-**Controllo ma non do conferma di stampa**
+Conferma [SI]
+**Il programma raggruppa per protocollo tutti i lavori fatti**
 
 
 ### Seconda stampa: RA2
@@ -151,7 +193,8 @@ Controllo il rapportino con tutti i giorni ed eventuali avvisi
 ### Terza Stampa: RA5
 Anteprima di Stampa [X] - Stampante: [04 Laser Back.]
 Stampa su carta [X] - [F11]
-Matricola: [0386] - Data Inizio: [010623](primo giorno del mese)0
+Matricola: [0386] - Data Inizio: [010623](primo giorno del mese)
+[Invio-Invio]
 Controllo il riepilogo di tutte le ore suddivise per protocollo. 
 [F6-STAMPA] (DA FIRMARE)
 
@@ -165,6 +208,7 @@ Ti calcola gli straordina in base alle ore inserite nei rapportini giornalieri
 Ripeto tutte la procedura gia eseguita in RA3COLASV
 **Il programma stampa solo quello che ritiene necessario sulla stampate alle mie spalle**
 La stampa non è garantita (potrebbe non stampare nulla)
+(DUE COPIE)
   
  
 ## CRM INSERIMENTO RAPPORTINO E RICHIESTE

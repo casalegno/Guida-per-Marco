@@ -41,8 +41,9 @@ Ho accesso a Frontoffice e Doctur.
 - 192.0.200.140 Macchina di test con montato il CRM - Sto provando a fare gli aggiornamenti su questa macchina.
 - 192.0.200.115 Macchina Master per l'rsync degli ambienti.
 - aprendo il file \\192.168.10.190\doctur\Assistenza\Progetti\SituazioneServerSaasFront.xml trovo tutte le macchine in uso ai clienti
+- 192.0.200.129 XSiges con installato e-booking3
 
-- 192.168.30.1 - Macchina ufficiale con installato Git
+- 192.168.30.1 - Macchina ufficiale con installato Git e tutti i repo
 - 192.168.30.2 - Macchina ufficiale con installato Postgres 15
 - 192.168.30.5 - Macchina ufficiale del **CRM 3.0**
 - 192.168.30.6 - Macchina ufficiale con installato MongoDb6

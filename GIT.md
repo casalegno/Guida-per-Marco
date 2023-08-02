@@ -6,6 +6,27 @@ https://github.com/progit/progit/tree/61833a527c6ac0c44cc40793c034b81599c25efc/i
 Su github trovi i comandi principali da eseguire con Git
 https://gist.github.com/tesseslol/da62aabec74c4fed889ea39c95efc6cc
 
+<!-- TOC -->
+
+        - [Procedimenti preliminari](#procedimenti-preliminari)
+- [Su che macchina sto lavorando](#su-che-macchina-sto-lavorando)
+- [Cambio di branch](#cambio-di-branch)
+- [La staging Area](#la-staging-area)
+- [Annullare le modifiche nella directory di lavoro](#annullare-le-modifiche-nella-directory-di-lavoro)
+    - [Se non voglio annullare le modifiche?](#se-non-voglio-annullare-le-modifiche)
+    - [E se il file è per caso nella staging area?](#e-se-il-file-%C3%A8-per-caso-nella-staging-area)
+- [Aggiorniamo Genius7](#aggiorniamo-genius7)
+- [Aggiorniamo il CRM](#aggiorniamo-il-crm)
+    - [Migrate: aggiorniamo il database del CRM](#migrate-aggiorniamo-il-database-del-crm)
+- [Sul server di Elite](#sul-server-di-elite)
+- [Cosè la commit](#cos%C3%A8-la-commit)
+- [Le aree di git](#le-aree-di-git)
+- [I branch e gli aggiornamenti](#i-branch-e-gli-aggiornamenti)
+- [Pulire la cache di Git](#pulire-la-cache-di-git)
+
+<!-- /TOC -->
+
+
 #### Procedimenti preliminari
 Come prassi eseguire il backup delle cartelle da aggiornare prima di fare la git e il backup del database relativo al crm.
 Se installo per la prima volta git e devo usarlo come programma di versionamento devo subito configurare i miei dati personali
@@ -181,3 +202,9 @@ Dobbiamo vedere i branch come delle cartelle, tutte presenti nello stesso reposi
 Quando scarichiamo un repository, noi scarichiamo tutti i branch esistenti, ma lavoriamo esclusivamente in uno di questi.
 Nel nostro esempio quando scarichiamo il CRM scarichiamo i 3 branch principali: crm2.17, crm3.00 e HEAD. Di default lavoriamo nel branch crm2.17 e se eseguiamo degli aggiornamenti li eseguiamo all'interno di quel brach.
 Se ci spostiamo in un'altro branch, dobbiamo vederlo semplicemente come un cambio di cartella di lavoro, che sarà aggiornato all'ultima volta che abbiamo richiesto una pull. All'interno di quel branch, se da allora non sono state fatte modifiche e committate nel repository, non vi sara nulla da aggiornare ed una pull non restituirà nessun risultato.
+
+## Pulire la cache di Git
+COn questo comando andiamo a pulire la cache di git
+```sh
+conf
+```

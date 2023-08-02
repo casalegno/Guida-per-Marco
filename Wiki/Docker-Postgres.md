@@ -1,7 +1,22 @@
-# Postgres su Docker
-I test su postgres sono terminati.
-Il database su container funziona, si riesce ad aggiornare con il passaggio dei dati e si possono importare tranquillamente i db esistenti.
+# Postgres su container
+Lo studio sui container dopo una [introduzione generale](https://wiki.sigesgroup.it/?q=content/docker-e-podman-i-container) continuano con i test su DB Postgres.
+L'immagine del container è direttamente scaricabile dalla [pagina principale di Docker](https://hub.docker.com/_/postgres/)
+<!-- TOC -->
 
+- [Creazione del container](#creazione-del-container)
+- [Eseguiamo il container e facciamo il primo accesso](#eseguiamo-il-container-e-facciamo-il-primo-accesso)
+- [Cambio di Encryption](#cambio-di-encryption)
+        - [La variabile di ambiente](#la-variabile-di-ambiente)
+- [Upgrade del database](#upgrade-del-database)
+    - [Da Postgres 9.2 a Postgres 14](#da-postgres-92-a-postgres-14)
+        - [Il passaggio completo con Dump All](#il-passaggio-completo-con-dump-all)
+    - [Dalla 12 alla 15 con il tool di Tianon](#dalla-12-alla-15-con-il-tool-di-tianon)
+        - [Creo la transizione di versione](#creo-la-transizione-di-versione)
+- [Conclusione](#conclusione)
+
+<!-- /TOC -->
+
+## Creazione del container
 Creare un POD per Postgress è praticamente simile a crearlo per mysql.
 ```sh
 podman create --name postgres1 -e POSTGRES_PASSWORD=B0C4MGliy3 -e POSTGRES_INITDB_ARGS=--auth-host=md5 -v pg1:/var/lib/postgresql/data -p 0.0.0.0:5432:5432 postgres:15.3
@@ -129,7 +144,7 @@ Lo stato del 13 è sempre a *created*. La cartella del mount è vuota, provo ad 
 
 Presumo, dovo aver riletto per l'ennesima volta la documentazione che il problema sia legato a `pg_upgrade` che viene usato come comando e che non permette la transizione dei db tra major version.
 
-
-
-
-
+## Conclusione
+I test su postgres sono terminati.
+Il database su container funziona, si riesce ad aggiornare con il passaggio dei dati e si possono importare tranquillamente i db esistenti.
+Per le informazioni pratiche su come agire sui container fare [riferimento alla pagina principale.](https://wiki.sigesgroup.it/?q=content/docker-e-podman-i-container)

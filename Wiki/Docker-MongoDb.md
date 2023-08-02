@@ -1,5 +1,19 @@
 # Mongodb su Podman
-Iniziamo il test con Mongodb 6.0 per Podman. 
+Iniziamo il test con Mongodb 6.0 per Podman.
+
+<!-- TOC -->
+
+- [Creiamo il container](#creiamo-il-container)
+        - [Si ripresenta il problema del kernel](#si-ripresenta-il-problema-del-kernel)
+- [Accediamo a MongoDB su container](#accediamo-a-mongodb-su-container)
+        - [Errore del branch](#errore-del-branch)
+    - [Importiamo ed esportiamo i dati.](#importiamo-ed-esportiamo-i-dati)
+    - [Aggiornaimo i container](#aggiornaimo-i-container)
+    - [Il file di configurazione](#il-file-di-configurazione)
+- [Gli errori sui dati](#gli-errori-sui-dati)
+- [Configuriamo un utente](#configuriamo-un-utente)
+
+<!-- /TOC -->
 
 Pensiamo a duplicare la macchina perche su questa ci sarà oltre al crm anche apache ed altro. Io vorrei avere tutto questo su una macchina pulita.
 potrei sfruttare la 192.168.100.136 - [NON È POSSIBILE](#si-ripresenta-il-problema-del-kernel)
@@ -9,7 +23,7 @@ effettivamente è la 192.168.100.137
 ## Creiamo il container
 Al momento lancio il comando di creazione del pod con queste caratteristiche
 ```sh
-podman create --name mongo1 -v mongo1:/data/db -p 0.0.0.0:10017:27017 mongo:6.0.8
+podman create --name mongo1 -v mongo1:/data/db -p 0.0.0.0:27017:27017 mongo:6.0.8
 ```
 Il container viene creato ma non avviato
 La cartella interessata è la stessa valida per tutti gli altri container 
@@ -52,6 +66,18 @@ Anche l'aggiornamento della versione e fattibile senza difficoltà sempre con il
 I dati fanno il passaggio da una versione all'altra senza difficoltà.
 Si potrebbe tramite modifiche varie utilizzare la stessa cartella di una versione per essere letta dall'altra ma cercando online ci sono difficoltà di conversione.
 
+### Il file di configurazione
+Mongo gestisce i parametri tramite un file di configurazione chiamato `monogd.conf`.
+Nel container ufficilae il file da copiare ha un nome simile
+```sh
+podman cp mongo1:/etc/mongod.conf.orig .
+```
+Possiamo ad esempio abilitare l'autentificazione al db. Dopo aver creato l'utente e con il container fermo all'interno di questo file inseriamo la voce
+```yaml
+security:
+  authorization: enabled
+```
+
 ## Gli errori sui dati
 Non avendo una macchina aggiornata con Genius7 ho collegato la macchina di test 192.0.200.140 al crm di test che sto utilizzando.
 Quando il PMS tenta di scrivere sul database all'interno di docker restituisce un errore.
@@ -69,3 +95,22 @@ Object of class MongoDB\Model\BSONArray could not be converted to string
 ```
 L'errore però viene evidenziato sia che si lavori con mongo installato sulla macchina sia con mongo installato nel container.
 
+Lo stesso errore appare sia che lavoriamo di base su una macchina OL8 sia su OL9
+
+
+## Configuriamo un utente
+Per mettere in sicurezza mongo e per dare la possibilità di accedervi anche da un server esterno.
+Creiamo un nuovo utente root
+```sql
+use admin
+db.createUser(
+  {
+    user: "Admin",
+    pwd: 'mongodb6', //pwd: passwordPrompt(), // or cleartext password
+    roles: [
+      { role: "userAdminAnyDatabase", db: "admin" },
+      { role: "readWriteAnyDatabase", db: "admin" }
+    ]
+  }
+)
+```
